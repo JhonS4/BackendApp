@@ -1,0 +1,9 @@
+Directorio para imágenes de la aplicación Sinatra
+
+Este directorio está configurado para servir archivos estáticos como:
+- Imágenes (jpg, png, gif, svg)
+- Archivos CSS adicionales
+- JavaScript
+- Otros recursos estáticos
+
+Los archivos colocados aquí serán accesibles desde la URL /images/
