@@ -32,10 +32,8 @@ class Review < BaseModel
             id: id,
             rating: rating,
             comment: comment,
-            created_at: created_at,
             is_anonymous: is_anonymous,
             reviewer: reviewer_info,
-            time_ago: time_ago_in_words
         }
     end
 
