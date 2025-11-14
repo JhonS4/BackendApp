@@ -5,6 +5,14 @@ class User < BaseModel
   # Por claridad, fijamos explícitamente la tabla
   set_dataset DB[:users]
 
+  # === ADD ASSOCIATIONS HERE ===
+  # A user has many reviews they GAVE (as a reviewer)
+  one_to_many :given_reviews, class: 'Review', key: :reviewer_id
+  
+  # A user has many reviews they RECEIVED (as a reviewed_user)  
+  one_to_many :received_reviews, class: 'Review', key: :reviewed_user_id
+  # === END ASSOCIATIONS ===
+
   def validate
     super
     # Campos obligatorios
