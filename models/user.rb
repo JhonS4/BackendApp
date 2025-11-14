@@ -1,24 +1,39 @@
 require_relative 'base_model'
 
 class User < BaseModel
-  # La tabla se creará automáticamente cuando sea necesaria
-  # o se puede crear con migraciones de Sequel
+  set_dataset :users
   
-  # Validaciones de ejemplo
   def validate
     super
-    errors.add(:name, 'cannot be empty') if !name || name.empty?
-    errors.add(:email, 'cannot be empty') if !email || email.empty?
-    errors.add(:email, 'format is invalid') if email && !email.match?(/\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i)
+    validates_presence [:first_name, :last_name, :email, :password_hash]
+    validates_unique :email
+    validates_max_length 100, :first_name
+    validates_max_length 100, :last_name
+    validates_max_length 255, :email
   end
   
-  # Métodos de instancia de ejemplo
-  def full_info
-    "#{name} (#{email})"
+  # Método de clase para buscar usuario por credenciales
+  def self.find_by_credentials(email, password_hash)
+    select(
+      :id, :first_name, :last_name, :email, :profile_picture, :gender, 
+      :rating, :total_ratings, :is_verified, :is_active
+    )
+    .where(email: email, password_hash: password_hash, is_active: true)
+    .first
   end
   
-  # Métodos de clase de ejemplo
-  def self.by_email(email)
-    where(email: email).first
+  # Método para obtener solo los campos públicos (sin password_hash)
+  def public_attributes
+    {
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      profile_picture: profile_picture,
+      gender: gender,
+      rating: rating,
+      total_ratings: total_ratings,
+      is_verified: is_verified,
+      is_active: is_active
+    }
   end
 end

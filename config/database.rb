@@ -1,7 +1,14 @@
+# config/database.rb
 require 'sequel'
 require 'logger'
 
-DB = Sequel.sqlite('db/development.sqlite3')
+# Ruta absoluta al archivo carpoolu.db dentro de /db
+DB = Sequel.sqlite(File.expand_path('../db/carpoolu.db', __dir__))
 
-# Configuración de logging para desarrollo
-DB.loggers << Logger.new($stdout) if defined?(Sinatra::Base) && Sinatra::Base.development?
+# Activar claves foráneas
+DB.run('PRAGMA foreign_keys = ON;')
+
+# Logging solo en desarrollo (opcional)
+if defined?(Sinatra::Base) && Sinatra::Base.development?
+  DB.loggers << Logger.new($stdout)
+end

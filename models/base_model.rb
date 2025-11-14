@@ -3,6 +3,7 @@ require 'sequel'
 # Clase base para todos los modelos
 class BaseModel < Sequel::Model
   # Configuraciones comunes para todos los modelos
+  plugin :json_serializer
   
   def before_create
     super
