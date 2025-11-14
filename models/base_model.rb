@@ -1,17 +1,11 @@
+# models/base_model.rb
 require 'sequel'
+require_relative '../config/database'
 
-# Clase base para todos los modelos
-class BaseModel < Sequel::Model
-  # Configuraciones comunes para todos los modelos
-  plugin :json_serializer
-  
-  def before_create
-    super
-    self.created_at ||= Time.now if respond_to?(:created_at)
-  end
+class BaseModel < Sequel::Model(DB)
+  # Activamos helpers de validación (validates_presence, etc.)
+  plugin :validation_helpers
 
-  def before_update
-    super
-    self.updated_at = Time.now if respond_to?(:updated_at)
-  end
+  # Si quieres timestamps automáticos (created_at / updated_at)
+  # plugin :timestamps, update_on_create: true
 end
