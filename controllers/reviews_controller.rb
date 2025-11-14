@@ -149,9 +149,7 @@ class ReviewsController < ApplicationController
         trip_id: request_body[:trip_id],
         rating: rating,
         comment: request_body[:comment],
-        is_anonymous: request_body[:is_anonymous] || false,
-        created_at: Time.now,
-        updated_at: Time.now
+        is_anonymous: request_body[:is_anonymous] || false 
       )
 
       # Get the created review
